@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Андрей Пономарев](https://up.htmlacademy.ru/javascript/18/user/511341).
-* Наставник: [Евгений Фаллер](https://htmlacademy.ru/profile/id505933).
+* Наставник: [Татьяна Москалёва](https://htmlacademy.ru/profile/id1117677).
 
 ---
 
