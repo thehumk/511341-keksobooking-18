@@ -22,7 +22,7 @@ var MAX_ROOMS = 4;
 var MIN_GUEST = 1;
 var MAX_GUEST = 5;
 var MIN_COORDINATE_X = 0;
-var MAX_COORDINATE_X = 1200;
+var MAX_COORDINATE_X = document.querySelector('.map__pins').getBoundingClientRect().width;
 var MIN_COORDINATE_Y = 130;
 var MAX_COORDINATE_Y = 630;
 
@@ -39,11 +39,7 @@ var createRandomArray = function (arr) {
   }
 
   randomArray = randomArray.filter(function (elem) {
-    if (elem !== undefined) {
-      return true;
-    } else {
-      return false;
-    }
+    return elem !== undefined;
   });
 
   return randomArray;
@@ -88,7 +84,7 @@ map.classList.remove('map--faded');
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
 var similarAd = document.querySelector('.map__pins');
 
-var renderPinsAds = function (ads) {
+var createPinsAds = function (ads) {
   var similarPin = templatePin.cloneNode(true);
 
   similarPin.style.left = ads.location.x + LOCATION_ADJUSTMENT_X + 'px';
@@ -99,14 +95,14 @@ var renderPinsAds = function (ads) {
   return similarPin;
 };
 
-var getFragmentElement = function () {
+var renderFragmentElement = function () {
   var fragment = document.createDocumentFragment();
 
   for (var i = 0; i < nearbyAds.length; i++) {
-    fragment.appendChild(renderPinsAds(nearbyAds[i]));
+    fragment.appendChild(createPinsAds(nearbyAds[i]));
   }
 
   similarAd.appendChild(fragment);
 };
 
-getFragmentElement();
+renderFragmentElement();
