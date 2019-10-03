@@ -1,9 +1,15 @@
 'use strict';
 
+var ENTER_KEY = 13;
+
+/* Получение случайного числа */
+
 var getRandomInteger = function (min, max) {
   var randomNumber = min + Math.random() * (max - min);
   return Math.round(randomNumber);
 };
+
+/* Моки */
 
 var nearbyAds = [];
 
@@ -78,9 +84,6 @@ var createSimilarAds = function () {
 
 createSimilarAds();
 
-var map = document.querySelector('.map');
-map.classList.remove('map--faded');
-
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
 var similarAd = document.querySelector('.map__pins');
 
@@ -105,4 +108,130 @@ var renderFragmentElement = function () {
   similarAd.appendChild(fragment);
 };
 
-renderFragmentElement();
+/* Отключение фильтра и формы объявления */
+
+var mapFilterSelects = document.querySelectorAll('.map__filter');
+var mapFilterFeatures = document.querySelectorAll('.map__features');
+
+var adFieldsets = document.querySelectorAll('.ad-form fieldset');
+
+
+var setDisabledTags = function (elem) {
+  for (var i = 0; i < elem.length; i++) {
+    elem[i].setAttribute('disabled', 'disabled');
+  }
+};
+
+setDisabledTags(mapFilterSelects);
+setDisabledTags(mapFilterFeatures);
+setDisabledTags(adFieldsets);
+
+/* Включение фильтра и формы объявления */
+
+var removeDisabledTags = function (elem) {
+  for (var i = 0; i < elem.length; i++) {
+    elem[i].removeAttribute('disabled');
+  }
+};
+
+/* Активация страницы */
+
+var mapPinMain = document.querySelector('.map__pin--main');
+var map = document.querySelector('.map');
+var adForm = document.querySelector('.ad-form');
+
+var MAP_PIN_MAIN_WIDTH = mapPinMain.getBoundingClientRect().width;
+var MAP_PIN_MAIN_HEIGHT = mapPinMain.getBoundingClientRect().height;
+
+var mapPinMainLeft = Math.round(parseInt(mapPinMain.style.left, 10) + MAP_PIN_MAIN_WIDTH / 2);
+var mapPinMainTop = Math.round(parseInt(mapPinMain.style.top, 10) + MAP_PIN_MAIN_HEIGHT / 2);
+
+var activePage = function () {
+  map.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+
+  renderFragmentElement();
+
+  removeDisabledTags(mapFilterSelects);
+  removeDisabledTags(mapFilterFeatures);
+  removeDisabledTags(adFieldsets);
+
+  mapPinMainTop = Math.round(parseInt(mapPinMain.style.top, 10) + MAP_PIN_MAIN_HEIGHT);
+
+  setAddress(mainPinAddress);
+};
+
+mapPinMain.addEventListener('mousedown', function () {
+  activePage();
+});
+
+mapPinMain.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEY) {
+    activePage();
+  }
+});
+
+/* Подстановка координат метки */
+
+var mainPinAddress = document.querySelector('#address');
+
+var setAddress = function (address) {
+  address.setAttribute('value', mapPinMainLeft + ', ' + mapPinMainTop);
+};
+
+setAddress(mainPinAddress);
+
+/* Валидация комнат и гостей */
+
+var SELECT_ROOMS = document.querySelector('#room_number');
+var SELECT_CAPACITY = document.querySelector('#capacity');
+
+var selectedRoomValue = parseInt(SELECT_ROOMS[SELECT_ROOMS.options.selectedIndex].value, 10);
+var selectedCapacity = SELECT_CAPACITY.options.selectedIndex;
+
+var validatedCopacity = [];
+var NOT_GUEST_ROOM = 100;
+var NOT_GUEST_ROOM_VALUE = 0;
+
+var validateCopacity = function (quantityRooms) {
+  for (var i = 0; i < SELECT_CAPACITY.length; i++) {
+    if (quantityRooms === NOT_GUEST_ROOM) {
+      validatedCopacity[i] = false;
+    } else {
+      if (SELECT_CAPACITY[i].value <= quantityRooms && parseInt(SELECT_CAPACITY[i].value, 10) !== NOT_GUEST_ROOM_VALUE) {
+        validatedCopacity[i] = true;
+      } else {
+        validatedCopacity[i] = false;
+      }
+    }
+  }
+};
+
+SELECT_ROOMS.addEventListener('invalid', function () {
+  if (selectedRoomValue === 100 && selectedCapacity === SELECT_CAPACITY.length - 1) {
+    SELECT_ROOMS.setCustomValidity('');
+  } else if (!validatedCopacity[selectedCapacity]) {
+    SELECT_ROOMS.setCustomValidity('Для данного количества гостей понадобится больше комнат');
+  } else {
+    SELECT_ROOMS.setCustomValidity('');
+  }
+});
+
+var invalidRooms = new Event('invalid');
+SELECT_ROOMS.dispatchEvent(invalidRooms);
+
+var changeValue = function () {
+  selectedRoomValue = parseInt(SELECT_ROOMS[SELECT_ROOMS.options.selectedIndex].value, 10);
+  selectedCapacity = SELECT_CAPACITY.options.selectedIndex;
+
+  validateCopacity(selectedRoomValue);
+  SELECT_ROOMS.dispatchEvent(invalidRooms);
+};
+
+SELECT_CAPACITY.addEventListener('change', function () {
+  changeValue();
+});
+
+SELECT_ROOMS.addEventListener('change', function () {
+  changeValue();
+});
