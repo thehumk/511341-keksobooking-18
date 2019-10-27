@@ -128,9 +128,9 @@ setDisabledTags(adFieldsets);
 
 /* Включение фильтра и формы объявления */
 
-var removeDisabledTags = function (elem) {
-  for (var i = 0; i < elem.length; i++) {
-    elem[i].removeAttribute('disabled');
+var removeDisabledTags = function (elems) {
+  for (var i = 0; i < elems.length; i++) {
+    elems[i].removeAttribute('disabled');
   }
 };
 
@@ -146,7 +146,9 @@ var MAP_PIN_MAIN_HEIGHT = mapPinMain.getBoundingClientRect().height;
 var mapPinMainLeft = Math.round(parseInt(mapPinMain.style.left, 10) + MAP_PIN_MAIN_WIDTH / 2);
 var mapPinMainTop = Math.round(parseInt(mapPinMain.style.top, 10) + MAP_PIN_MAIN_HEIGHT / 2);
 
-var activePage = function () {
+var MapPinMainTopActive = Math.round(parseInt(mapPinMain.style.top, 10) + MAP_PIN_MAIN_HEIGHT);
+
+var activatePage = function () {
   map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
 
@@ -156,18 +158,18 @@ var activePage = function () {
   removeDisabledTags(mapFilterFeatures);
   removeDisabledTags(adFieldsets);
 
-  mapPinMainTop = Math.round(parseInt(mapPinMain.style.top, 10) + MAP_PIN_MAIN_HEIGHT);
+  mapPinMainTop = MapPinMainTopActive;
 
   setAddress(mainPinAddress);
 };
 
 mapPinMain.addEventListener('mousedown', function () {
-  activePage();
+  activatePage();
 });
 
 mapPinMain.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEY) {
-    activePage();
+    activatePage();
   }
 });
 
@@ -183,55 +185,83 @@ setAddress(mainPinAddress);
 
 /* Валидация комнат и гостей */
 
-var SELECT_ROOMS = document.querySelector('#room_number');
-var SELECT_CAPACITY = document.querySelector('#capacity');
+var adForm = document.querySelector('.ad-form');
+var selectRooms = document.querySelector('#room_number');
+var selectCapacity = document.querySelector('#capacity');
 
-var selectedRoomValue = parseInt(SELECT_ROOMS[SELECT_ROOMS.options.selectedIndex].value, 10);
-var selectedCapacity = SELECT_CAPACITY.options.selectedIndex;
+var selectedRoomValue = parseInt(selectRooms[selectRooms.options.selectedIndex].value, 10);
+var selectedCapacityValue = parseInt(selectCapacity[selectCapacity.options.selectedIndex].value, 10);
 
-var validatedCopacity = [];
-var NOT_GUEST_ROOM = 100;
-var NOT_GUEST_ROOM_VALUE = 0;
+var capacityRoomsForGuests = {
+  0: [100],
+  1: [1, 2, 3],
+  2: [2, 3],
+  3: [3]
+}
 
-var validateCopacity = function (quantityRooms) {
-  for (var i = 0; i < SELECT_CAPACITY.length; i++) {
-    if (quantityRooms === NOT_GUEST_ROOM) {
-      validatedCopacity[i] = false;
-    } else {
-      if (SELECT_CAPACITY[i].value <= quantityRooms && parseInt(SELECT_CAPACITY[i].value, 10) !== NOT_GUEST_ROOM_VALUE) {
-        validatedCopacity[i] = true;
-      } else {
-        validatedCopacity[i] = false;
-      }
+var getValidateCapacity = function (quantityGuests) {
+  var validatedCapacity = capacityRoomsForGuests[quantityGuests];
+
+  var validationResult = false;
+
+  for (var i = 0; i < validatedCapacity.length; i++) {
+    if (selectedRoomValue == validatedCapacity[i]) {
+      validationResult = true;
+      break;
     }
   }
+
+  return validationResult;
 };
 
-SELECT_ROOMS.addEventListener('invalid', function () {
-  if (selectedRoomValue === 100 && selectedCapacity === SELECT_CAPACITY.length - 1) {
-    SELECT_ROOMS.setCustomValidity('');
-  } else if (!validatedCopacity[selectedCapacity]) {
-    SELECT_ROOMS.setCustomValidity('Для данного количества гостей понадобится больше комнат');
+var getInvalidRooms = function () {
+  if (!getValidateCapacity(selectedCapacityValue)) {
+    selectRooms.setCustomValidity('Данное количество комнат не вмещает заданное количество гостей');
+    return false;
   } else {
-    SELECT_ROOMS.setCustomValidity('');
+    selectRooms.setCustomValidity('');
+    return true;
+  }
+};
+
+
+adForm.addEventListener('submit', function (evt) {
+  if (!getInvalidRooms()) {
+    evt.preventDefault();
   }
 });
 
-var invalidRooms = new Event('invalid');
-SELECT_ROOMS.dispatchEvent(invalidRooms);
-
 var changeValue = function () {
-  selectedRoomValue = parseInt(SELECT_ROOMS[SELECT_ROOMS.options.selectedIndex].value, 10);
-  selectedCapacity = SELECT_CAPACITY.options.selectedIndex;
+  selectedRoomValue = parseInt(selectRooms[selectRooms.options.selectedIndex].value, 10);
+  selectedCapacityValue = parseInt(selectCapacity[selectCapacity.options.selectedIndex].value, 10);
 
-  validateCopacity(selectedRoomValue);
-  SELECT_ROOMS.dispatchEvent(invalidRooms);
+  getValidateCapacity(selectedCapacityValue);
+  getInvalidRooms();
 };
 
-SELECT_CAPACITY.addEventListener('change', function () {
+selectCapacity.addEventListener('change', function () {
   changeValue();
 });
 
-SELECT_ROOMS.addEventListener('change', function () {
+selectRooms.addEventListener('change', function () {
   changeValue();
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
