@@ -185,7 +185,6 @@ setAddress(mainPinAddress);
 
 /* Валидация комнат и гостей */
 
-var adForm = document.querySelector('.ad-form');
 var selectRooms = document.querySelector('#room_number');
 var selectCapacity = document.querySelector('#capacity');
 
@@ -197,7 +196,7 @@ var capacityRoomsForGuests = {
   1: [1, 2, 3],
   2: [2, 3],
   3: [3]
-}
+};
 
 var getValidateCapacity = function (quantityGuests) {
   var validatedCapacity = capacityRoomsForGuests[quantityGuests];
@@ -205,7 +204,7 @@ var getValidateCapacity = function (quantityGuests) {
   var validationResult = false;
 
   for (var i = 0; i < validatedCapacity.length; i++) {
-    if (selectedRoomValue == validatedCapacity[i]) {
+    if (selectedRoomValue === validatedCapacity[i]) {
       validationResult = true;
       break;
     }
@@ -246,22 +245,3 @@ selectCapacity.addEventListener('change', function () {
 selectRooms.addEventListener('change', function () {
   changeValue();
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
