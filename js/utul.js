@@ -2,18 +2,18 @@
 
 (function () {
   var KEYCODE = {
-    ENTER_KEY: 13,
-    ESC_KEY: 27
+    enterKey: 13,
+    escKey: 27
   };
 
   var enterEvent = function (evt, action) {
-    if (evt.keyCode === KEYCODE.ENTER_KEY) {
+    if (evt.keyCode === KEYCODE.enterKey) {
       action();
     }
   };
 
   var escEvent = function (evt, action) {
-    if (evt.keyCode === KEYCODE.ESC_KEY) {
+    if (evt.keyCode === KEYCODE.escKey) {
       action();
     }
   };

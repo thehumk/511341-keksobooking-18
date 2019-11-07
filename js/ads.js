@@ -75,8 +75,6 @@
   var createCardsAds = function (ads) {
     var cardAd = window.dom.templateCard.cloneNode(true);
 
-    cardAd.style.display = 'none';
-
     cardAd.querySelector('.popup__title').textContent = ads.offer.title;
     cardAd.querySelector('.popup__text--address').textContent = ads.offer.address;
     cardAd.querySelector('.popup__text--price').textContent = ads.offer.price + '₽/ночь';
@@ -138,31 +136,42 @@
     window.dom.map.appendChild(fragment);
   };
 
-  var openCardsAds = function () {
+  var toggleCardsAds = function () {
     var cardsAds = document.querySelectorAll('.map__card');
     var pinsAds = document.querySelectorAll('.map__pin--secondary');
 
+    var closeAllCards = function () {
+      for (var i = 0; i < cardsAds.length; i++) {
+        cardsAds[i].style.display = 'none';
+      }
+    };
+
     pinsAds.forEach(function (elem, i) {
       elem.addEventListener('click', function () {
+        closeAllCards();
         cardsAds[i].style.display = 'block';
       });
       elem.addEventListener('keydown', function (evt) {
-        if (evt.keyCode === window.util.KEYCODE.ENTER_KEY) {
+        if (evt.keyCode === window.util.KEYCODE.enterKey) {
+          closeAllCards();
           cardsAds[i].style.display = 'block';
         }
       });
     });
 
     cardsAds.forEach(function (elem) {
-      elem.addEventListener('click', function () {
+      var buttonClose = elem.querySelector('.popup__close');
+      buttonClose.addEventListener('click', function () {
         elem.style.display = 'none';
       });
       document.addEventListener('keydown', function (evt) {
-        if (evt.keyCode === window.util.KEYCODE.ESC_KEY) {
+        if (evt.keyCode === window.util.KEYCODE.escKey) {
           elem.style.display = 'none';
         }
       });
     });
+
+    closeAllCards();
   };
 
   createSimilarAds();
@@ -170,6 +179,6 @@
   window.ads = {
     renderPinAd: renderPinAd,
     renderCardAd: renderCardAd,
-    openCardsAds: openCardsAds
+    toggleCardsAds: toggleCardsAds
   };
 })();

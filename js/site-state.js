@@ -7,7 +7,8 @@
 
     window.ads.renderPinAd();
     window.ads.renderCardAd();
-    window.ads.openCardsAds();
+    window.ads.toggleCardsAds();
+
     window.util.removeDisabledTags(window.dom.mapFilterSelects);
     window.util.removeDisabledTags(window.dom.mapFilterFeatures);
     window.util.removeDisabledTags(window.dom.adFieldsets);
@@ -32,5 +33,3 @@
   window.util.setDisabledTags(window.dom.mapFilterFeatures);
   window.util.setDisabledTags(window.dom.adFieldsets);
 })();
-
-
