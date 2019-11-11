@@ -37,14 +37,12 @@
       var shiftCoords = {
         x: startCoords.x - moveEvt.clientX,
         y: startCoords.y - moveEvt.clientY
-      }
+      };
 
       startCoords = {
         x: moveEvt.clientX,
         y: moveEvt.clientY
-      }
-
-      
+      };
 
       window.dom.mapPinMain.style.top = (window.dom.mapPinMain.offsetTop - shiftCoords.y) + 'px';
       window.dom.mapPinMain.style.left = (window.dom.mapPinMain.offsetLeft - shiftCoords.x) + 'px';
@@ -67,8 +65,6 @@
       if (window.map.mapPinMainTop >= MAX_COORDINATE_Y) {
         window.dom.mapPinMain.style.top = (MAX_COORDINATE_Y - MAP_PIN_MAIN_HEIGHT) + 'px';
       }
-
-      console.log(window.map.mapPinMainTop);
 
       setAddress(window.dom.mainPinAddress);
     };

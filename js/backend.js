@@ -4,7 +4,7 @@
   var URL = 'https://js.dump.academy/keksobooking/data';
 
   window.load = function (onError) {
-    window.xhr = new XMLHttpRequest();
+    var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.open('GET', URL);
     xhr.send();
@@ -14,7 +14,9 @@
         onError();
       }
     });
-  }
+
+    window.xhr = xhr;
+  };
 
   window.load(function () {
     var templateError = document.querySelector('#error').content.querySelector('.error');
