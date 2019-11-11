@@ -42,16 +42,16 @@
     return randomArray;
   };
 
-  var setDisabledTags = function (elem) {
-    for (var i = 0; i < elem.length; i++) {
-      elem[i].setAttribute('disabled', 'disabled');
-    }
+  var setDisabledTags = function (elems) {
+    elems.forEach(function (item) {
+      item.setAttribute('disabled', 'disabled');
+    });
   };
 
   var removeDisabledTags = function (elems) {
-    for (var i = 0; i < elems.length; i++) {
-      elems[i].removeAttribute('disabled');
-    }
+    elems.forEach(function (item) {
+      item.removeAttribute('disabled');
+    });
   };
 
   window.util = {

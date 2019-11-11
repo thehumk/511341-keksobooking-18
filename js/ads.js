@@ -87,27 +87,27 @@
     var addFeatures = function () {
       cardAd.querySelector('.popup__features').innerHTML = '';
 
-      for (var i = 0; i < ads.offer.features.length; i++) {
+      ads.offer.features.forEach(function (item) {
         var listItemFeatures = document.createElement('li');
         listItemFeatures.classList.add('popup__feature');
-        listItemFeatures.classList.add('popup__feature--' + ads.offer.features[i]);
+        listItemFeatures.classList.add('popup__feature--' + item);
         cardAd.querySelector('.popup__features').appendChild(listItemFeatures);
-      }
+      });
     };
 
     var addPhotos = function () {
       cardAd.querySelector('.popup__photos').innerHTML = '';
 
-      for (var i = 0; i < ads.offer.photos.length; i++) {
+      ads.offer.photos.forEach(function (item) {
         var imgPhotos = document.createElement('img');
         imgPhotos.classList.add('popup__photo');
         imgPhotos.setAttribute('alt', 'Фотография жилья');
         imgPhotos.setAttribute('width', '45');
         imgPhotos.setAttribute('height', '40');
-        imgPhotos.setAttribute('src', ads.offer.photos[i]);
+        imgPhotos.setAttribute('src', item);
 
         cardAd.querySelector('.popup__photos').appendChild(imgPhotos);
-      }
+      });
     };
 
     addFeatures();
@@ -119,9 +119,9 @@
   var renderPinAd = function () {
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < nearbyAds.length; i++) {
-      fragment.appendChild(createPinsAds(nearbyAds[i]));
-    }
+    window.xhr.response.forEach(function (item) {
+      fragment.appendChild(createPinsAds(item));
+    });
 
     window.dom.similarAd.appendChild(fragment);
   };
@@ -129,9 +129,9 @@
   var renderCardAd = function () {
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < nearbyAds.length; i++) {
-      fragment.appendChild(createCardsAds(nearbyAds[i]));
-    }
+    window.xhr.response.forEach(function (item) {
+      fragment.appendChild(createCardsAds(item));
+    });
 
     window.dom.map.appendChild(fragment);
   };
@@ -141,9 +141,9 @@
     var pinsAds = document.querySelectorAll('.map__pin--secondary');
 
     var closeAllCards = function () {
-      for (var i = 0; i < cardsAds.length; i++) {
-        cardsAds[i].style.display = 'none';
-      }
+      cardsAds.forEach(function (item) {
+        item.style.display = 'none';
+      });
     };
 
     pinsAds.forEach(function (elem, i) {
