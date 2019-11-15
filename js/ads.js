@@ -1,63 +1,14 @@
 'use strict';
 
 (function () {
-  var nearbyAds = [];
-
-  var SIMILAR_ADS = 8;
-  var TYPE_REALTY = ['palace', 'flat', 'house', 'bungalo'];
-  var SIMILAR_CHECKIN = ['12:00', '13:00', '14:00'];
-  var SIMILAR_CHECKOUT = ['12:00', '13:00', '14:00'];
-  var AMENITIES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-  var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
   var LOCATION_ADJUSTMENT_X = -25;
   var LOCATION_ADJUSTMENT_Y = -70;
-  var MIN_PRICE = 1000;
-  var MAX_PRICE = 10000;
-  var MIN_ROOMS = 1;
-  var MAX_ROOMS = 4;
-  var MIN_GUEST = 1;
-  var MAX_GUEST = 5;
-  var MIN_COORDINATE_X = 0;
-  var MAX_COORDINATE_X = document.querySelector('.map__pins').getBoundingClientRect().width;
-  var MIN_COORDINATE_Y = 130;
-  var MAX_COORDINATE_Y = 630;
 
   var TYPE_REALTY_CARDS = {
     palace: 'Дворец',
     flat: 'Квартира',
     house: 'Дом',
     bungalo: 'Бунгало'
-  };
-
-  var createSimilarAds = function () {
-    for (var i = 0; i < SIMILAR_ADS; i++) {
-      nearbyAds[i] = {
-        author: {
-          avatar: 'img/avatars/user0' + (i + 1) + '.png'
-        },
-
-        offer: {
-          title: 'Уютное гнездышко для молодоженов',
-          address: '',
-          price: window.util.getRandomInteger(MIN_PRICE, MAX_PRICE),
-          type: TYPE_REALTY[window.util.getRandomInteger(0, TYPE_REALTY.length - 1)],
-          rooms: window.util.getRandomInteger(MIN_ROOMS, MAX_ROOMS),
-          guests: window.util.getRandomInteger(MIN_GUEST, MAX_GUEST),
-          checkin: SIMILAR_CHECKIN[window.util.getRandomInteger(0, SIMILAR_CHECKIN.length - 1)],
-          checkout: SIMILAR_CHECKOUT[window.util.getRandomInteger(0, SIMILAR_CHECKOUT.length - 1)],
-          features: window.util.createRandomArray(AMENITIES),
-          description: 'строка с описанием',
-          photos: window.util.createRandomArray(PHOTOS)
-        },
-
-        location: {
-          x: window.util.getRandomInteger(MIN_COORDINATE_X, MAX_COORDINATE_X),
-          y: window.util.getRandomInteger(MIN_COORDINATE_Y, MAX_COORDINATE_Y)
-        }
-      };
-
-      nearbyAds[i].offer.address = nearbyAds[i].location.x + ', ' + nearbyAds[i].location.y;
-    }
   };
 
   var createPinsAds = function (ads) {
@@ -173,8 +124,6 @@
 
     closeAllCards();
   };
-
-  createSimilarAds();
 
   window.ads = {
     renderPinAd: renderPinAd,

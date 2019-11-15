@@ -21,6 +21,7 @@
     selectTimeIn: document.querySelector('#timein'),
     selectTimeOut: document.querySelector('#timeout'),
     selectRooms: document.querySelector('#room_number'),
-    selectCapacity: document.querySelector('#capacity')
+    selectCapacity: document.querySelector('#capacity'),
+    adFormReset: document.querySelector('.ad-form__reset')
   };
 })();

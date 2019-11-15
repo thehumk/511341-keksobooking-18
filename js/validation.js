@@ -68,12 +68,6 @@
     }
   };
 
-  window.dom.adForm.addEventListener('submit', function (evt) {
-    if (!getInvalidRooms()) {
-      evt.preventDefault();
-    }
-  });
-
   var changeValue = function () {
     selectedRoomValue = parseInt(window.dom.selectRooms[window.dom.selectRooms.options.selectedIndex].value, 10);
     selectedCapacityValue = parseInt(window.dom.selectCapacity[window.dom.selectCapacity.options.selectedIndex].value, 10);
