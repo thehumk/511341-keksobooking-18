@@ -3,8 +3,9 @@
 (function () {
   var LOCATION_ADJUSTMENT_X = -25;
   var LOCATION_ADJUSTMENT_Y = -70;
+  var QUANTITY_ELEMENTS = 5;
 
-  var TYPE_REALTY_CARDS = {
+  var typeRealtyCard = {
     palace: 'Дворец',
     flat: 'Квартира',
     house: 'Дом',
@@ -29,7 +30,7 @@
     cardAd.querySelector('.popup__title').textContent = ads.offer.title;
     cardAd.querySelector('.popup__text--address').textContent = ads.offer.address;
     cardAd.querySelector('.popup__text--price').textContent = ads.offer.price + '₽/ночь';
-    cardAd.querySelector('.popup__type').textContent = TYPE_REALTY_CARDS[ads.offer.type];
+    cardAd.querySelector('.popup__type').textContent = typeRealtyCard[ads.offer.type];
     cardAd.querySelector('.popup__text--capacity').textContent = ads.offer.rooms + ' комнаты для ' + ads.offer.guests + ' гостей';
     cardAd.querySelector('.popup__text--time').textContent = 'Заезд после ' + ads.offer.checkin + ', выезд до ' + ads.offer.checkout;
     cardAd.querySelector('.popup__description').textContent = ads.offer.description;
@@ -70,9 +71,9 @@
   var renderPinAd = function () {
     var fragment = document.createDocumentFragment();
 
-    window.xhr.response.forEach(function (item) {
-      fragment.appendChild(createPinsAds(item));
-    });
+    for (var i = 0; i < QUANTITY_ELEMENTS; i++) {
+      fragment.appendChild(createPinsAds(window.xhr.response[i]));
+    }
 
     window.dom.similarAd.appendChild(fragment);
   };
@@ -80,9 +81,9 @@
   var renderCardAd = function () {
     var fragment = document.createDocumentFragment();
 
-    window.xhr.response.forEach(function (item) {
-      fragment.appendChild(createCardsAds(item));
-    });
+    for (var i = 0; i < QUANTITY_ELEMENTS; i++) {
+      fragment.appendChild(createCardsAds(window.xhr.response[i]));
+    }
 
     window.dom.map.appendChild(fragment);
   };
@@ -92,8 +93,9 @@
     var pinsAds = document.querySelectorAll('.map__pin--secondary');
 
     var closeAllCards = function () {
-      cardsAds.forEach(function (item) {
-        item.style.display = 'none';
+      cardsAds.forEach(function (elem, i) {
+        elem.style.display = 'none';
+        pinsAds[i].classList.remove('map__pin--active');
       });
     };
 
@@ -101,23 +103,27 @@
       elem.addEventListener('click', function () {
         closeAllCards();
         cardsAds[i].style.display = 'block';
+        elem.classList.add('map__pin--active');
       });
       elem.addEventListener('keydown', function (evt) {
         if (evt.keyCode === window.util.KEYCODE.enterKey) {
           closeAllCards();
           cardsAds[i].style.display = 'block';
+          elem.classList.add('map__pin--active');
         }
       });
     });
 
-    cardsAds.forEach(function (elem) {
+    cardsAds.forEach(function (elem, i) {
       var buttonClose = elem.querySelector('.popup__close');
       buttonClose.addEventListener('click', function () {
         elem.style.display = 'none';
+        pinsAds[i].classList.remove('map__pin--active');
       });
       document.addEventListener('keydown', function (evt) {
         if (evt.keyCode === window.util.KEYCODE.escKey) {
           elem.style.display = 'none';
+          pinsAds[i].classList.remove('map__pin--active');
         }
       });
     });
@@ -125,9 +131,25 @@
     closeAllCards();
   };
 
+  var removeAds = function () {
+    var similarAd = document.querySelectorAll('.map__pin--secondary');
+    var cardSimilarAd = document.querySelectorAll('.map__card');
+
+    similarAd.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+    cardSimilarAd.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  };
+
   window.ads = {
     renderPinAd: renderPinAd,
     renderCardAd: renderCardAd,
-    toggleCardsAds: toggleCardsAds
+    toggleCardsAds: toggleCardsAds,
+    removeAds: removeAds,
+    createPinsAds: createPinsAds,
+    createCardsAds: createCardsAds,
+    QUANTITY_ELEMENTS: QUANTITY_ELEMENTS
   };
 })();

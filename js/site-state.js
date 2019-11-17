@@ -14,7 +14,6 @@
     window.util.removeDisabledTags(window.dom.adFieldsets);
 
     window.map.mapPinMainTop = window.map.mapPinMainTopActive;
-
     window.map.setAddress(window.dom.mainPinAddress, window.map.mapPinParams.HEIGHT);
 
     window.dom.mapPinMain.removeEventListener('mousedown', activatePage);
@@ -30,15 +29,8 @@
       x: 570,
       y: 375
     };
-    var similarAd = document.querySelectorAll('.map__pin--secondary');
-    var cardSimilarAd = document.querySelectorAll('.map__card');
 
-    similarAd.forEach(function (item) {
-      item.parentNode.removeChild(item);
-    });
-    cardSimilarAd.forEach(function (item) {
-      item.parentNode.removeChild(item);
-    });
+    window.ads.removeAds();
 
     document.querySelector('.map__filters').reset();
     window.dom.map.classList.add('map--faded');
