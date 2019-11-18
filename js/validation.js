@@ -30,8 +30,6 @@
     setMinPrice(selectedTypeValue);
   };
 
-  window.dom.selectType.addEventListener('change', changeType);
-
   var changeTimeIn = function () {
     window.dom.selectTimeOut.selectedIndex = window.dom.selectTimeIn.selectedIndex;
   };
@@ -39,9 +37,6 @@
   var changeTimeOut = function () {
     window.dom.selectTimeIn.selectedIndex = window.dom.selectTimeOut.selectedIndex;
   };
-
-  window.dom.selectTimeIn.addEventListener('change', changeTimeIn);
-  window.dom.selectTimeOut.addEventListener('change', changeTimeOut);
 
   var getValidateCapacity = function (quantityGuests) {
     var validatedCapacity = capacityRoomsForGuests[quantityGuests];
@@ -75,9 +70,12 @@
     getInvalidRooms();
   };
 
-  window.dom.selectCapacity.addEventListener('change', changeValue);
-
-  window.dom.selectRooms.addEventListener('change', changeValue);
+  window.validation = {
+    changeType: changeType,
+    changeTimeIn: changeTimeIn,
+    changeTimeOut: changeTimeOut,
+    changeValue: changeValue
+  };
 
   setMinPrice(selectedTypeValue);
   getInvalidRooms();

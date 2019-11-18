@@ -12,34 +12,9 @@
     }
   };
 
-  var escEvent = function (evt, action) {
-    if (evt.keyCode === KEYCODE.escKey) {
-      action();
-    }
-  };
-
   var getRandomInteger = function (min, max) {
     var randomNumber = min + Math.random() * (max - min);
     return Math.round(randomNumber);
-  };
-
-  var createRandomArray = function (arr) {
-    var randomArray = [];
-    var randomArrayLength = window.util.getRandomInteger(0, arr.length);
-
-    for (var i = 0; i < randomArrayLength; i++) {
-      var randomArrayElement = window.util.getRandomInteger(0, arr.length - 1);
-
-      if (!randomArray.includes(arr[randomArrayElement], 0)) {
-        randomArray[i] = arr[randomArrayElement];
-      }
-    }
-
-    randomArray = randomArray.filter(function (elem) {
-      return elem !== undefined;
-    });
-
-    return randomArray;
   };
 
   var setDisabledTags = function (elems) {
@@ -57,9 +32,7 @@
   window.util = {
     KEYCODE: KEYCODE,
     enterEvent: enterEvent,
-    escEvent: escEvent,
     getRandomInteger: getRandomInteger,
-    createRandomArray: createRandomArray,
     setDisabledTags: setDisabledTags,
     removeDisabledTags: removeDisabledTags
   };

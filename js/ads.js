@@ -68,24 +68,14 @@
     return cardAd;
   };
 
-  var renderPinAd = function () {
+  var renderAd = function (target) {
     var fragment = document.createDocumentFragment();
 
     for (var i = 0; i < QUANTITY_ELEMENTS; i++) {
-      fragment.appendChild(createPinsAds(window.xhr.response[i]));
+      fragment.appendChild(target(window.xhr.response[i]));
     }
 
     window.dom.similarAd.appendChild(fragment);
-  };
-
-  var renderCardAd = function () {
-    var fragment = document.createDocumentFragment();
-
-    for (var i = 0; i < QUANTITY_ELEMENTS; i++) {
-      fragment.appendChild(createCardsAds(window.xhr.response[i]));
-    }
-
-    window.dom.map.appendChild(fragment);
   };
 
   var toggleCardsAds = function () {
@@ -144,8 +134,7 @@
   };
 
   window.ads = {
-    renderPinAd: renderPinAd,
-    renderCardAd: renderCardAd,
+    renderAd: renderAd,
     toggleCardsAds: toggleCardsAds,
     removeAds: removeAds,
     createPinsAds: createPinsAds,

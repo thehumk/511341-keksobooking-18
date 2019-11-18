@@ -6,6 +6,7 @@
   var roomsFilter = document.querySelector('#housing-rooms');
   var guestsFilter = document.querySelector('#housing-guests');
   var featuresFilter = document.querySelectorAll('.map__checkbox');
+  var TIMEOUT = 500;
 
   var Price = {
     LOW_RANGE: 10000,
@@ -53,14 +54,13 @@
   };
 
   window.filteredAds = function () {
-    var resultAds = window.xhr.response.filter(function (elem) {
+    return window.xhr.response.filter(function (elem) {
       return filterByField(typeFilter, elem.offer.type) &&
         filterByField(roomsFilter, elem.offer.rooms) &&
         filterByField(guestsFilter, elem.offer.guests) &&
         filterByPrice(elem.offer.price) &&
         filterByFeatures(elem.offer.features);
     });
-    return resultAds;
   };
 
   var createFilteredAds = function () {
@@ -74,7 +74,7 @@
       renderFilterAds(filterAds, window.ads.createPinsAds, window.ads.QUANTITY_ELEMENTS);
       renderFilterAds(filterAds, window.ads.createCardsAds, window.ads.QUANTITY_ELEMENTS);
       window.ads.toggleCardsAds();
-    }, 500);
+    }, TIMEOUT);
   };
 
   typeFilter.addEventListener('change', createFilteredAds);
