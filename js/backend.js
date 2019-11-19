@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var URL_LOAD = 'https://js.dump.academy/keksobooking/data';
+  var URL_LOAD = 'https://js.dump.academy/keksobooking/data2';
   var URL_UPLOAD = 'https://js.dump.academy/keksobooking';
   var SUCCESS_CODE = 200;
 
@@ -19,8 +19,6 @@
 
     window.xhr = xhr;
   };
-
-  window.load(window.onError);
 
   window.upload = function (data, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
@@ -47,14 +45,22 @@
 
     var successPopup = document.querySelector('.success');
 
-    document.addEventListener('click', function () {
+    var onClosePopup = function () {
       document.querySelector('main').removeChild(successPopup);
-    });
-    document.addEventListener('keydown', function (evt) {
+      document.removeEventListener('click', onClosePopup);
+      document.removeEventListener('keydown', onClosePopupKeydown);
+    };
+
+    var onClosePopupKeydown = function (evt) {
       if (evt.keyCode === window.util.KEYCODE.escKey) {
         document.querySelector('main').removeChild(successPopup);
+        document.removeEventListener('click', onClosePopup);
+        document.removeEventListener('keydown', onClosePopupKeydown);
       }
-    });
+    };
+
+    document.addEventListener('click', onClosePopup);
+    document.addEventListener('keydown', onClosePopupKeydown);
     document.querySelector('.success__message').addEventListener('click', function (evt) {
       evt.stopPropagation();
     });
@@ -69,16 +75,26 @@
 
     var errorPopup = document.querySelector('.error');
 
-    document.addEventListener('click', function () {
+    var onCloseError = function () {
       document.querySelector('main').removeChild(errorPopup);
-    });
-    document.addEventListener('keydown', function (evt) {
+      document.removeEventListener('click', onCloseError);
+      document.removeEventListener('keydown', onCloseErrorKeydown);
+    };
+
+    var onCloseErrorKeydown = function (evt) {
       if (evt.keyCode === window.util.KEYCODE.escKey) {
         document.querySelector('main').removeChild(errorPopup);
+        document.removeEventListener('click', onCloseError);
+        document.removeEventListener('keydown', onCloseErrorKeydown);
       }
-    });
+    };
+
+    document.addEventListener('click', onCloseError);
+    document.addEventListener('keydown', onCloseErrorKeydown);
     document.querySelector('.error__message').addEventListener('click', function (evt) {
       evt.stopPropagation();
     });
   };
+
+  window.load(window.onError);
 })();

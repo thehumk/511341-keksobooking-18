@@ -122,13 +122,13 @@
   };
 
   var removeAds = function () {
-    var similarAd = document.querySelectorAll('.map__pin--secondary');
-    var cardSimilarAd = document.querySelectorAll('.map__card');
+    var similarAds = document.querySelectorAll('.map__pin--secondary');
+    var cardSimilarAds = document.querySelectorAll('.map__card');
 
-    similarAd.forEach(function (item) {
+    similarAds.forEach(function (item) {
       item.parentNode.removeChild(item);
     });
-    cardSimilarAd.forEach(function (item) {
+    cardSimilarAds.forEach(function (item) {
       item.parentNode.removeChild(item);
     });
   };
