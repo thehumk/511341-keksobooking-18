@@ -4,16 +4,16 @@
   var activatePage = function () {
     window.dom.map.classList.remove('map--faded');
     window.dom.adForm.classList.remove('ad-form--disabled');
-    window.ads.renderAd(window.ads.createPinsAds);
-    window.ads.renderAd(window.ads.createCardsAds);
-    window.ads.toggleCardsAds();
+    window.ads.renderData(window.ads.createPins);
+    window.ads.renderData(window.ads.createCards);
+    window.ads.toggleCards();
 
     window.util.removeDisabledTags(window.dom.mapFilterSelects);
     window.util.removeDisabledTags(window.dom.mapFilterFeatures);
     window.util.removeDisabledTags(window.dom.adFieldsets);
 
-    window.map.mapPinMainTop = window.map.mapPinMainTopActive;
-    window.map.setAddress(window.dom.mainPinAddress, window.map.mapPinParams.HEIGHT);
+    window.map.pinMainTop = window.map.pinMainTopActive;
+    window.map.setAddress(window.dom.mainPinAddress, window.map.pinParams.HEIGHT);
 
     window.dom.selectType.addEventListener('change', window.validation.changeType);
     window.dom.selectTimeIn.addEventListener('change', window.validation.changeTimeIn);
@@ -23,7 +23,7 @@
 
     window.onSubmit = function (evt) {
       evt.preventDefault();
-      window.upload(new FormData(window.dom.adForm), siteReset, window.onError);
+      window.backend.upload(new FormData(window.dom.adForm), siteReset, window.backend.onError);
     };
 
     window.dom.adForm.addEventListener('submit', window.onSubmit);
@@ -42,13 +42,13 @@
       y: 375
     };
 
-    window.ads.removeAds();
+    window.ads.removeData();
 
     document.querySelector('.map__filters').reset();
     window.dom.map.classList.add('map--faded');
     window.dom.mapPinMain.style.top = mapPinMainStart.y + 'px';
     window.dom.mapPinMain.style.left = mapPinMainStart.x + 'px';
-    window.map.setAddress(window.dom.mainPinAddress, window.map.mapPinParams.HALF_HEIGHT);
+    window.map.setAddress(window.dom.mainPinAddress, window.map.pinParams.HALF_HEIGHT);
 
     window.dom.mapPinMain.addEventListener('mousedown', activatePage);
     window.dom.mapPinMain.addEventListener('keydown', activatePageKeydown);

@@ -12,7 +12,7 @@
     bungalo: 'Бунгало'
   };
 
-  var createPinsAds = function (ads) {
+  var createPins = function (ads) {
     var similarPin = window.dom.templatePin.cloneNode(true);
 
     similarPin.classList.add('map__pin--secondary');
@@ -24,7 +24,7 @@
     return similarPin;
   };
 
-  var createCardsAds = function (ads) {
+  var createCards = function (ads) {
     var cardAd = window.dom.templateCard.cloneNode(true);
 
     cardAd.querySelector('.popup__title').textContent = ads.offer.title;
@@ -68,7 +68,7 @@
     return cardAd;
   };
 
-  var renderAd = function (target) {
+  var renderData = function (target) {
     var fragment = document.createDocumentFragment();
 
     for (var i = 0; i < QUANTITY_ELEMENTS; i++) {
@@ -78,7 +78,7 @@
     window.dom.similarAd.appendChild(fragment);
   };
 
-  var toggleCardsAds = function () {
+  var toggleCards = function () {
     var cardsAds = document.querySelectorAll('.map__card');
     var pinsAds = document.querySelectorAll('.map__pin--secondary');
 
@@ -96,7 +96,7 @@
         elem.classList.add('map__pin--active');
       });
       elem.addEventListener('keydown', function (evt) {
-        if (evt.keyCode === window.util.KEYCODE.enterKey) {
+        if (evt.keyCode === window.util.KEYCODE.enter) {
           closeAllCards();
           cardsAds[i].style.display = 'block';
           elem.classList.add('map__pin--active');
@@ -111,7 +111,7 @@
         pinsAds[i].classList.remove('map__pin--active');
       });
       document.addEventListener('keydown', function (evt) {
-        if (evt.keyCode === window.util.KEYCODE.escKey) {
+        if (evt.keyCode === window.util.KEYCODE.esc) {
           elem.style.display = 'none';
           pinsAds[i].classList.remove('map__pin--active');
         }
@@ -121,7 +121,7 @@
     closeAllCards();
   };
 
-  var removeAds = function () {
+  var removeData = function () {
     var similarAds = document.querySelectorAll('.map__pin--secondary');
     var cardSimilarAds = document.querySelectorAll('.map__card');
 
@@ -134,11 +134,11 @@
   };
 
   window.ads = {
-    renderAd: renderAd,
-    toggleCardsAds: toggleCardsAds,
-    removeAds: removeAds,
-    createPinsAds: createPinsAds,
-    createCardsAds: createCardsAds,
+    renderData: renderData,
+    toggleCards: toggleCards,
+    removeData: removeData,
+    createPins: createPins,
+    createCards: createCards,
     QUANTITY_ELEMENTS: QUANTITY_ELEMENTS
   };
 })();

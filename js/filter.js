@@ -68,12 +68,12 @@
       window.clearTimeout(lastTimeout);
     }
     lastTimeout = window.setTimeout(function () {
-      window.ads.removeAds();
+      window.ads.removeData();
       var filterAds = window.filteredAds();
 
-      renderFilterAds(filterAds, window.ads.createPinsAds, window.ads.QUANTITY_ELEMENTS);
-      renderFilterAds(filterAds, window.ads.createCardsAds, window.ads.QUANTITY_ELEMENTS);
-      window.ads.toggleCardsAds();
+      renderFilterAds(filterAds, window.ads.createPins, window.ads.QUANTITY_ELEMENTS);
+      renderFilterAds(filterAds, window.ads.createCards, window.ads.QUANTITY_ELEMENTS);
+      window.ads.toggleCards();
     }, TIMEOUT);
   };
 

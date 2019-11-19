@@ -5,7 +5,7 @@
   var URL_UPLOAD = 'https://js.dump.academy/keksobooking';
   var SUCCESS_CODE = 200;
 
-  window.load = function (onError) {
+  var load = function (onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.open('GET', URL_LOAD);
@@ -20,7 +20,7 @@
     window.xhr = xhr;
   };
 
-  window.upload = function (data, onSuccess, onError) {
+  var upload = function (data, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.open('POST', URL_UPLOAD);
@@ -52,7 +52,7 @@
     };
 
     var onClosePopupKeydown = function (evt) {
-      if (evt.keyCode === window.util.KEYCODE.escKey) {
+      if (evt.keyCode === window.util.KEYCODE.esc) {
         document.querySelector('main').removeChild(successPopup);
         document.removeEventListener('click', onClosePopup);
         document.removeEventListener('keydown', onClosePopupKeydown);
@@ -66,7 +66,7 @@
     });
   };
 
-  window.onError = function () {
+  var onError = function () {
     var templateError = document.querySelector('#error').content.querySelector('.error');
 
     var fragment = document.createDocumentFragment();
@@ -82,7 +82,7 @@
     };
 
     var onCloseErrorKeydown = function (evt) {
-      if (evt.keyCode === window.util.KEYCODE.escKey) {
+      if (evt.keyCode === window.util.KEYCODE.esc) {
         document.querySelector('main').removeChild(errorPopup);
         document.removeEventListener('click', onCloseError);
         document.removeEventListener('keydown', onCloseErrorKeydown);
@@ -96,5 +96,11 @@
     });
   };
 
-  window.load(window.onError);
+  window.backend = {
+    load: load,
+    upload: upload,
+    onError: onError
+  };
+
+  window.backend.load(window.backend.onError);
 })();
