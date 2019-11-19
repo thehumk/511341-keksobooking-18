@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var URL_LOAD = 'https://js.dump.academy/keksobooking/data2';
+  var URL_LOAD = 'https://js.dump.academy/keksobooking/data';
   var URL_UPLOAD = 'https://js.dump.academy/keksobooking';
   var SUCCESS_CODE = 200;
 
